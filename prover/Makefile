@@ -14,4 +14,4 @@ deploy: config install
 	sudo systemctl restart my-prover
 
 start:
-	go run ./prover/cmd/main.go
+	go run ./cmd/main.go

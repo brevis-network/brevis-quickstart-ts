@@ -1,0 +1,15 @@
+[Unit]
+Description=my prover service
+After=network-online.target
+
+[Service]
+Environment=HOME=/home/ubuntu
+ExecStart=/home/ubuntu/go/bin/prover -port=33248
+StandardOutput=append:/var/log/my-prover/app.log
+StandardError=append:/var/log/my-prover/app.log
+Restart=always
+RestartSec=3
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

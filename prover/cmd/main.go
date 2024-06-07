@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/brevis-network/brevis-sdk/sdk/prover"
 	"os"
 	age "pancake-prover/circuits"
+
+	"github.com/brevis-network/brevis-sdk/sdk/prover"
 )
 
 var port = flag.Uint("port", 33247, "the port to start the service at")
@@ -22,9 +23,5 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	err = proverService.Serve(*port)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	proverService.Serve("", *port)
 }

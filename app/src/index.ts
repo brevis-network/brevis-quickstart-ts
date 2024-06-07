@@ -1,24 +1,61 @@
 import { Brevis, ErrCode, ProofRequest, Prover, TransactionData } from 'brevis-sdk-typescript';
+import { ethers } from 'ethers';
 
 async function main() {
     const prover = new Prover('localhost:33247');
     const brevis = new Brevis('appsdk.brevis.network:11080');
 
     const proofReq = new ProofRequest();
+
+    // Assume transaction hash will provided by command line
+    const hash = process.argv[2]
+
+    if (hash.length === 0) {
+        console.error("empty transaction hash")
+        return 
+    }
+    const provider = new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com");
+
+    console.log(`Get transaction info for ${hash}`)
+    const transaction = await provider.getTransaction(hash)
+
+    if (transaction.type != 0 && transaction.type != 2) {
+        console.error("only type0 and type2 transactions are supported")
+        return
+    }
+
+    if (transaction.nonce != 0) {
+        console.error("only transaction with nonce 0 is supported by sample circuit")
+        return 
+    }
+
+    const receipt = await provider.getTransactionReceipt(hash)
+    var gas_tip_cap_or_gas_price =  ''
+    var gas_fee_cap = ''
+    if (transaction.type = 0) {
+        gas_tip_cap_or_gas_price = transaction.gasPrice?._hex ?? ''
+        gas_fee_cap = '0'
+    } else {
+        gas_tip_cap_or_gas_price = transaction.maxPriorityFeePerGas?._hex ?? ''
+        gas_fee_cap = transaction.maxFeePerGas?._hex ?? ''
+    }
+    
     proofReq.addTransaction(
         new TransactionData({
-            hash: '0x6dc75e61220cc775aafa17796c20e49ac08030020fce710e3e546aa4e003454c',
+            hash: hash,
             chain_id: 1,
-            block_num: 19073244,
+            block_num: receipt.blockNumber,
             nonce: 0,
-            gas_tip_cap_or_gas_price: '90000000000',
-            gas_fee_cap: '90000000000',
+            gas_tip_cap_or_gas_price: gas_tip_cap_or_gas_price,
+            gas_fee_cap: gas_fee_cap,
             gas_limit: 21000,
-            from: '0x6c2843bA78Feb261798be1AAC579d1A4aE2C64b4',
-            to: '0x2F19E5C3C66C44E6405D4c200fE064ECe9bC253a',
-            value: '22329290000000000',
+            from: transaction.from,
+            to: transaction.to,
+            value: transaction.value._hex,
         }),
     );
+
+    console.log(`Send prove request for ${hash}`)
 
     const proofRes = await prover.prove(proofReq);
     // error handling
@@ -45,7 +82,7 @@ async function main() {
         const brevisRes = await brevis.submit(proofReq, proofRes, 1, 11155111);
         console.log('brevis res', brevisRes);
 
-        await brevis.wait(brevisRes.id, 11155111);
+        await brevis.wait(brevisRes.brevisId, 11155111);
     } catch (err) {
         console.error(err);
     }

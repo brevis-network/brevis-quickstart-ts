@@ -42,7 +42,11 @@ The Node.js project in ./app is a simple program that does the following things:
 
 ```bash
 cd app
-npm run start
+npm run start [TransactionHash]
+```
+Example 
+```bash
+npm run start 0x6dc75e61220cc775aafa17796c20e49ac08030020fce710e3e546aa4e003454c
 ```
 
 # [Contracts](./contracts)

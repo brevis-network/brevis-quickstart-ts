@@ -3,8 +3,8 @@ module pancake-prover
 go 1.20
 
 require (
-	github.com/brevis-network/brevis-sdk v0.0.0-20240430020810-8cb95f70e171
-	github.com/ethereum/go-ethereum v1.13.8
+	github.com/brevis-network/brevis-sdk v0.0.0-20240815080502-4b0e929daaa1
+	github.com/ethereum/go-ethereum v1.13.15
 )
 
 require (
@@ -12,12 +12,13 @@ require (
 	github.com/StackExchange/wmi v1.2.1 // indirect
 	github.com/bits-and-blooms/bitset v1.10.0 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
-	github.com/brevis-network/zk-utils v0.0.0-20240223081048-7daf41d41dee // indirect
+	github.com/brevis-network/zk-utils v0.0.0-20240708030032-e860f3d67190 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
+	github.com/cbergoon/merkletree v0.2.0 // indirect
 	github.com/celer-network/goutils v0.1.60 // indirect
 	github.com/consensys/bavard v0.1.13 // indirect
 	github.com/consensys/gnark v0.0.0 // indirect
-	github.com/consensys/gnark-crypto v0.12.2-0.20231221171913-5d5eded6bb15 // indirect
+	github.com/consensys/gnark-crypto v0.12.2-0.20240215234832-d72fcb379d3e // indirect
 	github.com/crate-crypto/go-kzg-4844 v0.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set/v2 v2.1.0 // indirect
@@ -25,7 +26,7 @@ require (
 	github.com/ethereum/c-kzg-4844 v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.5.0 // indirect
-	github.com/go-ole/go-ole v1.2.6 // indirect
+	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.5-0.20220116011046-fa5810519dcb // indirect
 	github.com/google/pprof v0.0.0-20230817174616-7a8ec2ada47b // indirect

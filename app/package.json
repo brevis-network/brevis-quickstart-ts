@@ -19,7 +19,7 @@
         "typescript": "^5.4.3"
     },
     "dependencies": {
-        "brevis-sdk-typescript": "^1.2.0",
+        "brevis-sdk-typescript": "^1.2.5",
         "ethers": "^5.5.1"
     }
 }

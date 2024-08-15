@@ -3,18 +3,21 @@ import { ethers } from 'ethers';
 
 async function main() {
     const prover = new Prover('localhost:33247');
-    const brevis = new Brevis('appsdk.brevis.network:11080');
+    const brevis = new Brevis('appsdkv2.brevis.network:9094');
 
     const proofReq = new ProofRequest();
 
     // Assume transaction hash will provided by command line
     const hash = process.argv[2]
 
+    const apiKey = process.argv[3]
+    const callbackAddress = process.argv[4] 
+
     if (hash.length === 0) {
         console.error("empty transaction hash")
         return 
     }
-    const provider = new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com");
+    const provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.public.blastapi.io");
 
     console.log(`Get transaction info for ${hash}`)
     const transaction = await provider.getTransaction(hash)
@@ -43,12 +46,12 @@ async function main() {
     proofReq.addTransaction(
         new TransactionData({
             hash: hash,
-            chain_id: 1,
+            chain_id: transaction.chainId,
             block_num: receipt.blockNumber,
-            nonce: 0,
+            nonce: transaction.nonce,
             gas_tip_cap_or_gas_price: gas_tip_cap_or_gas_price,
             gas_fee_cap: gas_fee_cap,
-            gas_limit: 21000,
+            gas_limit: transaction.gasLimit.toNumber(),
             from: transaction.from,
             to: transaction.to,
             value: transaction.value._hex,
@@ -79,10 +82,10 @@ async function main() {
     console.log('proof', proofRes.proof);
 
     try {
-        const brevisRes = await brevis.submit(proofReq, proofRes, 1, 11155111);
+        const brevisRes = await brevis.submit(proofReq, proofRes, 97, 97, 0, apiKey, callbackAddress);
         console.log('brevis res', brevisRes);
 
-        await brevis.wait(brevisRes.brevisId, 11155111);
+        await brevis.wait(brevisRes.queryKey, 97);
     } catch (err) {
         console.error(err);
     }

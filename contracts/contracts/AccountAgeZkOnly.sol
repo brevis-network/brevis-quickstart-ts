@@ -2,15 +2,15 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./lib/BrevisApp.sol";
+import "./lib/BrevisAppZkOnly.sol";
 
-// Accept both ZK- and OP-attested results.
-contract AccountAge is BrevisApp, Ownable {
+// Only accept ZK-attested results.
+contract AccountAgeZkOnly is BrevisAppZkOnly, Ownable {
     event AccountAgeAttested(address account, uint64 blockNum);
 
     bytes32 public vkHash;
 
-    constructor(address _brevisRequest) BrevisApp(_brevisRequest) Ownable(msg.sender) {}
+    constructor(address _brevisRequest) BrevisAppZkOnly(_brevisRequest) Ownable(msg.sender) {}
 
     // BrevisRequest contract will trigger callback once ZK proof is received.
     function handleProofResult(bytes32 _vkHash, bytes calldata _circuitOutput) internal override {
@@ -19,13 +19,6 @@ contract AccountAge is BrevisApp, Ownable {
         require(vkHash == _vkHash, "invalid vk");
         (address txFrom, uint64 blockNum) = decodeOutput(_circuitOutput);
         emit AccountAgeAttested(txFrom, blockNum);
-    }
-
-    // handle optimistic proof result.
-    // This example handles optimistic result in the same way as handling zk results,
-    // your app can choose to do differently.
-    function handleOpProofResult(bytes32 _vkHash, bytes calldata _circuitOutput) internal override {
-        handleProofResult(_vkHash, _circuitOutput);
     }
 
     // In app circuit we have:
@@ -40,14 +33,5 @@ contract AccountAge is BrevisApp, Ownable {
     // vkHash represents the unique circuit app logic
     function setVkHash(bytes32 _vkHash) external onlyOwner {
         vkHash = _vkHash;
-    }
-
-    /**
-     * @notice config params to handle optimitic proof result
-     * @param _challengeWindow The challenge window to accept optimistic result. 0: POS, maxInt: disable optimistic result
-     * @param _sigOption bitmap to express expected sigs: bit 0 is bvn, bit 1 is avs
-     */
-    function setBrevisOpConfig(uint64 _challengeWindow, uint8 _sigOption) external onlyOwner {
-        brevisOpConfig = BrevisOpConfig(_challengeWindow, _sigOption);
     }
 }

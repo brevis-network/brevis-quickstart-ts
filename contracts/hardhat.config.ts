@@ -6,8 +6,9 @@ import { HardhatUserConfig } from 'hardhat/types';
 
 dotenv.config();
 
-const sepoliaEndpoint = process.env.SEPOLIA_ENDPOINT as string;
-const privateKey = process.env.PRIVATE_KEY as string;
+const sepoliaEndpoint = process.env.SEPOLIA_ENDPOINT || 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+const privateKey = process.env.PRIVATE_KEY || 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+const bscTestEndpoint = process.env.BSC_TEST_ENDPOINT || 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',
@@ -18,6 +19,10 @@ const config: HardhatUserConfig = {
     localhost: { timeout: 600000 },
     sepolia: {
       url: sepoliaEndpoint,
+      accounts: [`0x${privateKey}`]
+    },
+    bscTest: {
+      url: bscTestEndpoint,
       accounts: [`0x${privateKey}`]
     }
   },
@@ -42,7 +47,8 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      sepolia: process.env.ETHERSCAN_API_KEY as string
+      sepolia: process.env.ETHERSCAN_API_KEY as string,
+      bscTestnet: process.env.BSC_ETHERSCAN_API_KEY as string
     }
   }
 };

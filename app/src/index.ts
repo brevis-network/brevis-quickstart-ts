@@ -10,7 +10,9 @@ async function main() {
     // Assume transaction hash will provided by command line
     const hash = process.argv[2]
 
-    const apiKey = process.argv[3]
+    // Brevis Partner KEY IS NOT required to submit request to Brevis Gateway. 
+    // It is used only for Brevis Partner Flow
+    const brevis_partner_key = process.argv[3]
     const callbackAddress = process.argv[4] 
 
     if (hash.length === 0) {
@@ -82,7 +84,7 @@ async function main() {
     console.log('proof', proofRes.proof);
 
     try {
-        const brevisRes = await brevis.submit(proofReq, proofRes, 97, 97, 0, apiKey, callbackAddress);
+        const brevisRes = await brevis.submit(proofReq, proofRes, 97, 97, 0, brevis_partner_key, callbackAddress);
         console.log('brevis res', brevisRes);
 
         await brevis.wait(brevisRes.queryKey, 97);

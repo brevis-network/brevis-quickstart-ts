@@ -27,7 +27,7 @@ contract LiquidityZkOnly is BrevisAppZkOnly, Ownable {
     function decodeOutput(bytes calldata o) internal pure returns (address, uint64, uint128) {
         address pool = address(bytes20(o[0:20])); // txFrom was output as an address
         uint64 blockNum = uint64(bytes8(o[20:28])); // blockNum was output as a uint64 (8 bytes)
-        uint128 liquidity = uint64(bytes8(o[20:28])); // blockNum was output as a uint64 (8 bytes)
+        uint128 liquidity = uint128(bytes16(o[28:44])); // liquidity was output as a uint128 (16 bytes)
 
         return (pool, blockNum, liquidity);
     }

@@ -12,8 +12,8 @@ async function main() {
 
     // Brevis Partner KEY IS NOT required to submit request to Brevis Gateway. 
     // It is used only for Brevis Partner Flow
-    const brevis_partner_key = process.argv[3]
-    const callbackAddress = process.argv[4] 
+    const brevis_partner_key = process.argv[3] ?? ""
+    const callbackAddress = process.argv[4] ?? ""
 
     if (hash.length === 0) {
         console.error("empty transaction hash")

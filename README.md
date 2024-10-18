@@ -42,23 +42,12 @@ The Node.js project in ./app is a simple program that does the following things:
 
 ```bash
 cd app
-npm run start [TransactionHash]
+npm run start 
 ```
-Example for Normal Flow
-```bash
-npm run start 0x02869126ca667c76e819078d5326feb5d17f276ce5786de47e78334f15530e74
-```
-
-Example for Brevis Partner Flow
-```bash
-npm run start 0x02869126ca667c76e819078d5326feb5d17f276ce5786de47e78334f15530e74 TEST_ACCOUNT_AGE_KEY 0xeec66d9b615ff84909be1cb1fe633cc26150417d
-```
->[!NOTE]
->Brevis partner key **IS NOT** required to submit request to Brevis Gateway
 
 # [Contracts](./contracts)
 
-The app contract [AccountAge.sol](./contracts/contracts/AccountAge.sol) is called
+The app contract [AccountAge.sol](./contracts/contracts/TimeWeightedLiquidity.sol) is called
 after you submit proof is submitted to Brevis when Brevis'
 systems submit the final proof on-chain.
 It does the following things when handling the callback:
@@ -85,5 +74,5 @@ npm run test
 Rename `.env.template` to `.env`. Fill in the required env vars.
 
 ```bash
-npx hardhat deploy --network sepolia --tags AccountAge
+npx hardhat deploy --network sepolia --tags TimeWeightedLiquidity
 ```

@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	age "pancake-prover/circuits"
+	"pancake-prover/liquidity"
 
 	"github.com/brevis-network/brevis-sdk/sdk/prover"
 )
@@ -15,7 +15,7 @@ var port = flag.Uint("port", 33247, "the port to start the service at")
 func main() {
 	flag.Parse()
 
-	proverService, err := prover.NewService(&age.AppCircuit{}, prover.ServiceConfig{
+	proverService, err := prover.NewService(&liquidity.AppCircuit{}, prover.ServiceConfig{
 		SetupDir: "$HOME/circuitOut",
 		SrsDir:   "$HOME/kzgsrs",
 	})

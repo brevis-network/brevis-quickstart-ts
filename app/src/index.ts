@@ -1,66 +1,35 @@
-import { Brevis, ErrCode, ProofRequest, Prover, TransactionData } from 'brevis-sdk-typescript';
+import { Brevis, ErrCode, ProofRequest, Prover, StorageData, TransactionData } from 'brevis-sdk-typescript';
 import { ethers } from 'ethers';
 
 async function main() {
+   TestLiquidity()
+}
+
+async function TestLiquidity() {
     const prover = new Prover('localhost:33247');
     const brevis = new Brevis('appsdkv2.brevis.network:9094');
 
     const proofReq = new ProofRequest();
-
-    // Assume transaction hash will provided by command line
-    const hash = process.argv[2]
-
-    // Brevis Partner KEY IS NOT required to submit request to Brevis Gateway. 
-    // It is used only for Brevis Partner Flow
-    const brevis_partner_key = process.argv[3] ?? ""
-    const callbackAddress = process.argv[4] ?? ""
-
-    if (hash.length === 0) {
-        console.error("empty transaction hash")
-        return 
-    }
-    const provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.public.blastapi.io");
-
-    console.log(`Get transaction info for ${hash}`)
-    const transaction = await provider.getTransaction(hash)
-
-    if (transaction.type != 0 && transaction.type != 2) {
-        console.error("only type0 and type2 transactions are supported")
-        return
-    }
-
-    if (transaction.nonce != 0) {
-        console.error("only transaction with nonce 0 is supported by sample circuit")
-        return 
-    }
-
-    const receipt = await provider.getTransactionReceipt(hash)
-    var gas_tip_cap_or_gas_price =  ''
-    var gas_fee_cap = ''
-    if (transaction.type = 0) {
-        gas_tip_cap_or_gas_price = transaction.gasPrice?._hex ?? ''
-        gas_fee_cap = '0'
-    } else {
-        gas_tip_cap_or_gas_price = transaction.maxPriorityFeePerGas?._hex ?? ''
-        gas_fee_cap = transaction.maxFeePerGas?._hex ?? ''
-    }
     
-    proofReq.addTransaction(
-        new TransactionData({
-            hash: hash,
-            chain_id: transaction.chainId,
-            block_num: receipt.blockNumber,
-            nonce: transaction.nonce,
-            gas_tip_cap_or_gas_price: gas_tip_cap_or_gas_price,
-            gas_fee_cap: gas_fee_cap,
-            gas_limit: transaction.gasLimit.toNumber(),
-            from: transaction.from,
-            to: transaction.to,
-            value: transaction.value._hex,
-        }),
-    );
+    const startBlockNumber = 20961816
+	for (let i = 0; i < 24; i++) {
+		const blk = startBlockNumber + i*300
+		var value = ""
+		if (blk < 20962816) {
+			value = "0x00000000000000000000000000000000000000000007a6e40808f0a4cb774bb8"
+		} else if (blk < 20966862) {
+			value = "0x00000000000000000000000000000000000000000007a875eb11bcdb90679fd3"
+		} else if (blk <= 20976472) {
+			value = "0x00000000000000000000000000000000000000000007a8a9cf44558277dec09f"
+		}
 
-    console.log(`Send prove request for ${hash}`)
+		proofReq.addStorage(new StorageData({
+			block_num: blk,
+			address:  "0x390f3595bCa2Df7d23783dFd126427CCeb997BF4",
+			slot:     "0x0000000000000000000000000000000000000000000000000000000000000016",
+			value:    value,
+		}), i)
+	}
 
     const proofRes = await prover.prove(proofReq);
     // error handling
@@ -84,10 +53,10 @@ async function main() {
     console.log('proof', proofRes.proof);
 
     try {
-        const brevisRes = await brevis.submit(proofReq, proofRes, 97, 97, 0, brevis_partner_key, callbackAddress);
+        const brevisRes = await brevis.submit(proofReq, proofRes, 1, 11155111, 0, "", "");
         console.log('brevis res', brevisRes);
 
-        await brevis.wait(brevisRes.queryKey, 97);
+        await brevis.wait(brevisRes.queryKey, 11155111);
     } catch (err) {
         console.error(err);
     }

@@ -18,6 +18,8 @@ func main() {
 	proverService, err := prover.NewService(&age.AppCircuit{}, prover.ServiceConfig{
 		SetupDir: "$HOME/circuitOut",
 		SrsDir:   "$HOME/kzgsrs",
+		RpcURL:   "https://eth.llamarpc.com",
+		ChainId:  1,
 	})
 	if err != nil {
 		fmt.Println(err)

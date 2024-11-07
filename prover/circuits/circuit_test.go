@@ -1,52 +1,29 @@
 package age
 
 import (
-	"context"
-	"math/big"
 	"testing"
 
 	"github.com/brevis-network/brevis-sdk/sdk"
 	"github.com/brevis-network/brevis-sdk/test"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 func TestCircuit(t *testing.T) {
-	app, err := sdk.NewBrevisApp()
-	check(err)
-	ec, err := ethclient.Dial("https://eth.llamarpc.com")
+	app, err := sdk.NewBrevisApp(1, "https://eth.llamarpc.com", "$HOME/circuit-sample")
 	check(err)
 
 	txHash := common.HexToHash(
-		"4a18c7762036fcd4016d9ba74b40a8c3614adf9b6f7c6439c4675f9e828211c8")
-	tx, _, err := ec.TransactionByHash(context.Background(), txHash)
-	check(err)
-	receipt, err := ec.TransactionReceipt(context.Background(), txHash)
-	check(err)
-	from, err := types.Sender(types.NewLondonSigner(tx.ChainId()), tx)
-	check(err)
+		"0xd45d48f608a3418a64ca4ecde4acc6e05bfe59335a2c509e11cda9c3d8b39d74")
 
-	gtc := big.NewInt(0)
-	gasFeeCap := big.NewInt(0)
-	if tx.Type() == types.LegacyTxType {
-		gtc = tx.GasPrice()
-	} else {
-		gtc = tx.GasTipCap()
-		gasFeeCap = tx.GasFeeCap()
-	}
-
-	app.AddTransaction(sdk.TransactionData{
-		Hash:                txHash,
-		ChainId:             tx.ChainId(),
-		BlockNum:            receipt.BlockNumber,
-		Nonce:               tx.Nonce(),
-		GasTipCapOrGasPrice: gtc,
-		GasFeeCap:           gasFeeCap,
-		GasLimit:            tx.Gas(),
-		From:                from,
-		To:                  *tx.To(),
-		Value:               tx.Value(),
+	app.AddReceipt(sdk.ReceiptData{
+		TxHash: txHash,
+		Fields: []sdk.LogFieldData{
+			{
+				LogPos:     0,
+				FieldIndex: 0,
+				IsTopic:    false,
+			},
+		},
 	})
 
 	guest := &AppCircuit{}

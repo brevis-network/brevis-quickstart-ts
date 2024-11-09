@@ -1,4 +1,4 @@
-module pancake-prover
+module prover
 
 go 1.21.5
 

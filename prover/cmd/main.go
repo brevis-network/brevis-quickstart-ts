@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"prover/circuits"
+
 	"github.com/brevis-network/brevis-sdk/sdk/prover"
 )
 

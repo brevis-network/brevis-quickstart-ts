@@ -1,4 +1,4 @@
-package age
+package circuits
 
 import (
 	"testing"
@@ -9,30 +9,41 @@ import (
 )
 
 func TestCircuit(t *testing.T) {
-	app, err := sdk.NewBrevisApp(1, "https://eth.llamarpc.com", "$HOME/circuit-sample")
+	rpc := "RPC_URL"
+	localDir := "$HOME/circuitOut/myBrevisApp"
+	app, err := sdk.NewBrevisApp(1, rpc, localDir)
 	check(err)
 
 	txHash := common.HexToHash(
-		"0xd45d48f608a3418a64ca4ecde4acc6e05bfe59335a2c509e11cda9c3d8b39d74")
+		"0x8a7fc50330533cd0adbf71e1cfb51b1b6bbe2170b4ce65c02678cf08c8b17737")
 
 	app.AddReceipt(sdk.ReceiptData{
 		TxHash: txHash,
 		Fields: []sdk.LogFieldData{
 			{
+				IsTopic:    true,
+				LogPos:     0,
+				FieldIndex: 1,
+			},
+			{
+				IsTopic:    false,
 				LogPos:     0,
 				FieldIndex: 0,
-				IsTopic:    false,
 			},
 		},
 	})
 
-	guest := &AppCircuit{}
-	guestAssignment := &AppCircuit{}
+	appCircuit := &AppCircuit{}
+	appCircuitAssignment := &AppCircuit{}
 
-	circuitInput, err := app.BuildCircuitInput(guest)
+	circuitInput, err := app.BuildCircuitInput(appCircuit)
 	check(err)
 
-	test.ProverSucceeded(t, guest, guestAssignment, circuitInput)
+	///////////////////////////////////////////////////////////////////////////////
+	// Testing
+	///////////////////////////////////////////////////////////////////////////////
+
+	test.ProverSucceeded(t, appCircuit, appCircuitAssignment, circuitInput)
 }
 
 func check(err error) {

@@ -9,8 +9,8 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const args: string[] = ['0xF7E9CB6b7A157c14BCB6E6bcf63c1C7c92E952f5']; // BrevisRequest contract address on bsc testnet
-  const deployment = await deploy('AccountAge', {
+  const args: string[] = ['0xa082F86d9d1660C29cf3f962A31d7D20E367154F']; // Sepolia Brevis Request Contract Address
+  const deployment = await deploy('TokenTransferZkOnly', {
     from: deployer,
     log: true,
     args: args
@@ -22,6 +22,6 @@ const deployFunc: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   });
 };
 
-deployFunc.tags = ['AccountAge'];
+deployFunc.tags = ['TokenTransferZkOnly'];
 deployFunc.dependencies = [];
 export default deployFunc;

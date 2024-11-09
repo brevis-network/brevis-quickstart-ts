@@ -3,7 +3,7 @@ module pancake-prover
 go 1.21.5
 
 require (
-	github.com/brevis-network/brevis-sdk v0.3.10-0.20241107101832-0ba03e43737d
+	github.com/brevis-network/brevis-sdk v0.3.10-0.20241108033403-7eeeed3135c8
 	github.com/ethereum/go-ethereum v1.14.8
 )
 

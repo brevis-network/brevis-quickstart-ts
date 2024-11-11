@@ -1,9 +1,9 @@
-import { Brevis, ErrCode, ProofRequest, Prover, TransactionData } from 'brevis-sdk-typescript';
+import { Brevis, ErrCode, ProofRequest, Prover, ReceiptData, Field } from 'brevis-sdk-typescript';
 import { ethers } from 'ethers';
 
 async function main() {
     const prover = new Prover('localhost:33247');
-    const brevis = new Brevis('appsdkv2.brevis.network:9094');
+    const brevis = new Brevis('appsdkv3.brevis.network:443');
 
     const proofReq = new ProofRequest();
 
@@ -19,44 +19,22 @@ async function main() {
         console.error("empty transaction hash")
         return 
     }
-    const provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.public.blastapi.io");
-
-    console.log(`Get transaction info for ${hash}`)
-    const transaction = await provider.getTransaction(hash)
-
-    if (transaction.type != 0 && transaction.type != 2) {
-        console.error("only type0 and type2 transactions are supported")
-        return
-    }
-
-    if (transaction.nonce != 0) {
-        console.error("only transaction with nonce 0 is supported by sample circuit")
-        return 
-    }
-
-    const receipt = await provider.getTransactionReceipt(hash)
-    var gas_tip_cap_or_gas_price =  ''
-    var gas_fee_cap = ''
-    if (transaction.type = 0) {
-        gas_tip_cap_or_gas_price = transaction.gasPrice?._hex ?? ''
-        gas_fee_cap = '0'
-    } else {
-        gas_tip_cap_or_gas_price = transaction.maxPriorityFeePerGas?._hex ?? ''
-        gas_fee_cap = transaction.maxFeePerGas?._hex ?? ''
-    }
     
-    proofReq.addTransaction(
-        new TransactionData({
-            hash: hash,
-            chain_id: transaction.chainId,
-            block_num: receipt.blockNumber,
-            nonce: transaction.nonce,
-            gas_tip_cap_or_gas_price: gas_tip_cap_or_gas_price,
-            gas_fee_cap: gas_fee_cap,
-            gas_limit: transaction.gasLimit.toNumber(),
-            from: transaction.from,
-            to: transaction.to,
-            value: transaction.value._hex,
+    proofReq.addReceipt(
+        new ReceiptData({
+            tx_hash: hash,
+            fields: [
+                new Field({
+                    log_pos: 0,
+                    is_topic: true,
+                    field_index: 1,
+                }),
+                new Field({
+                    log_pos: 0,
+                    is_topic: false,
+                    field_index: 0,
+                }),
+            ],
         }),
     );
 
@@ -84,10 +62,10 @@ async function main() {
     console.log('proof', proofRes.proof);
 
     try {
-        const brevisRes = await brevis.submit(proofReq, proofRes, 97, 97, 0, brevis_partner_key, callbackAddress);
+        const brevisRes = await brevis.submit(proofReq, proofRes, 1, 11155111, 0, brevis_partner_key, callbackAddress);
         console.log('brevis res', brevisRes);
 
-        await brevis.wait(brevisRes.queryKey, 97);
+        await brevis.wait(brevisRes.queryKey, 11155111);
     } catch (err) {
         console.error(err);
     }

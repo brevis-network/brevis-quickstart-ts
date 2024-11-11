@@ -3,7 +3,7 @@ module prover
 go 1.21.5
 
 require (
-	github.com/brevis-network/brevis-sdk v0.3.10-0.20241108033403-7eeeed3135c8
+	github.com/brevis-network/brevis-sdk v0.3.10-0.20241111002420-fd5a75ac289a
 	github.com/ethereum/go-ethereum v1.14.8
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bits-and-blooms/bitset v1.10.0 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
-	github.com/brevis-network/zk-hash v0.0.0-20240903111749-fedffbe8a45c // indirect
+	github.com/brevis-network/zk-hash v0.0.0-20241108052253-b7ab3c6a195b // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.3.4 // indirect
 	github.com/cbergoon/merkletree v0.2.0 // indirect
 	github.com/cespare/cp v1.1.1 // indirect

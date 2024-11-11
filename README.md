@@ -46,19 +46,19 @@ npm run start [TransactionHash]
 ```
 Example for Normal Flow
 ```bash
-npm run start 0x02869126ca667c76e819078d5326feb5d17f276ce5786de47e78334f15530e74
+npm run start 0x8a7fc50330533cd0adbf71e1cfb51b1b6bbe2170b4ce65c02678cf08c8b17737
 ```
 
 Example for Brevis Partner Flow
 ```bash
-npm run start 0x02869126ca667c76e819078d5326feb5d17f276ce5786de47e78334f15530e74 TEST_ACCOUNT_AGE_KEY 0xeec66d9b615ff84909be1cb1fe633cc26150417d
+npm run start 0x8a7fc50330533cd0adbf71e1cfb51b1b6bbe2170b4ce65c02678cf08c8b17737 TestVolume 0x9fc16c4918a4d69d885f2ea792048f13782a522d
 ```
 >[!NOTE]
 >Brevis partner key **IS NOT** required to submit request to Brevis Gateway
 
 # [Contracts](./contracts)
 
-The app contract [AccountAge.sol](./contracts/contracts/AccountAge.sol) is called
+The app contract [TokenTransferZkOnly.sol](./contracts/contracts/TokenTransferZkOnly.sol) is called
 after you submit proof is submitted to Brevis when Brevis'
 systems submit the final proof on-chain.
 It does the following things when handling the callback:
@@ -85,5 +85,5 @@ npm run test
 Rename `.env.template` to `.env`. Fill in the required env vars.
 
 ```bash
-npx hardhat deploy --network sepolia --tags AccountAge
+npx hardhat deploy --network sepolia --tags TokenTransferZkOnly
 ```

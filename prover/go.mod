@@ -3,7 +3,7 @@ module prover
 go 1.21.5
 
 require (
-	github.com/brevis-network/brevis-sdk v0.3.10-0.20241111002420-fd5a75ac289a
+	github.com/brevis-network/brevis-sdk v0.3.10-0.20241111080939-3806deddbade
 	github.com/ethereum/go-ethereum v1.14.8
 )
 

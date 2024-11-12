@@ -1,7 +1,7 @@
 # Brevis Quickstart Typescript
 
 This repo contains a simple end-to-end brevis application
-that proves the account age for a given user and handles the attested age in an app contract.
+that proves circle USDC token transfer and handles the attested account and volume in an app contract.
 
 ## Environment Requirements
 
@@ -34,8 +34,8 @@ make deploy
 
 The Node.js project in ./app is a simple program that does the following things:
 
-1. call the Go prover with some transaction data to generate an account age proof
-2. call Brevis backend service and submit the account age proof
+1. call the Go prover with some transaction data to generate token transfer volume proof
+2. call Brevis backend service and submit the token transfer volume proof
 3. wait until the final proof is submitted on-chain and our contract is called
 
 ## How to Run

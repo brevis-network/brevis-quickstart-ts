@@ -25,6 +25,8 @@ github.com/brevis-network/brevis-sdk v0.3.10-0.20241111080939-3806deddbade h1:B7
 github.com/brevis-network/brevis-sdk v0.3.10-0.20241111080939-3806deddbade/go.mod h1:fqMKk3yt4mKo897T2L1kOf8xgydZPZbR2+XarmgwovE=
 github.com/brevis-network/brevis-sdk v0.3.10 h1:7AApOtRCMFsngzMAp028l8SQqDD6rVJ0zRRCJTr0TZA=
 github.com/brevis-network/brevis-sdk v0.3.10/go.mod h1:fqMKk3yt4mKo897T2L1kOf8xgydZPZbR2+XarmgwovE=
+github.com/brevis-network/brevis-sdk v0.3.11 h1:g1Yo1j/HxaoFgg1xEPG7EEuny8GNMTIFc1DLqRHV0fg=
+github.com/brevis-network/brevis-sdk v0.3.11/go.mod h1:fqMKk3yt4mKo897T2L1kOf8xgydZPZbR2+XarmgwovE=
 github.com/brevis-network/poseidon-goldilocks-go v0.0.0-20240826082508-8017eb90f413 h1:Q1+JagFYZ/atuJejVOfxBSeYGqeVkRVWXqaGu03HmUQ=
 github.com/brevis-network/poseidon-goldilocks-go v0.0.0-20240826082508-8017eb90f413/go.mod h1:sGddb8GeVcQErqlTrfUIP/2SmIzpG7DmPsFy3tBY9KQ=
 github.com/brevis-network/zk-hash v0.0.0-20241108052253-b7ab3c6a195b h1:5BRwAPIzME7+MMtUKglhRo9JHYSIB+ls7U0v0cU+Tus=
